@@ -7,9 +7,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.javi.chinesevocabulary.helpers.DBHelper;
 import com.javi.chinesevocabulary.helpers.DropboxUrl;
 import com.javi.chinesevocabulary.helpers.HttpHelper;
 import com.javi.chinesevocabulary.pojos.Vocabulary;
+import com.javi.chinesevocabulary.DBManager.DataTable;
+import com.javi.chinesevocabulary.DBManager.VocabularyTable;
 
 import java.net.SocketTimeoutException;
 import java.util.List;
@@ -24,12 +27,16 @@ public class MainActivity extends AppCompatActivity {
 
     private ProgressDialog dialog;
     private AlertDialog.Builder alertbox;
+    private DBHelper dbData;
+    private DBHelper dbResources;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        dbData = new DBHelper(this, DataTable.TABLE);
+        dbResources = new DBHelper(this, VocabularyTable.TABLE);
         dialog = ProgressDialog.show(this, "", this.getString(R.string.please_wait), true);
         Retrofit retrofit = new Retrofit.Builder().baseUrl(DropboxUrl.URL).addConverterFactory(GsonConverterFactory.create()).build();
 
@@ -42,9 +49,16 @@ public class MainActivity extends AppCompatActivity {
                 dialog.dismiss();
                 Log.d(this.getClass().getName(), "onCreate() - success = " + response.isSuccessful());
                 if (response.isSuccessful()) {
-                    Vocabulary vocabulary = response.body();
-
-
+                    Vocabulary remoteVocabulary = response.body();
+                    Vocabulary localVocabulary = dbData.getData();
+                    if((localVocabulary != null && localVocabulary.getVersion() < remoteVocabulary.getVersion())
+                            || localVocabulary == null){
+                        dbData.saveData(remoteVocabulary);
+                        dbResources.saveResources(remoteVocabulary.getResources());
+                        Log.d(this.getClass().getName(), "onCreate() - data saved");
+                    }else{
+                        Log.d(this.getClass().getName(), "onCreate() - no need to save, local version = " + localVocabulary.getVersion() + ", remote version = " + remoteVocabulary.getVersion());
+                    }
                 } else {
                     Log.d(this.getClass().getName(), "onCreate() - " + MainActivity.this.getString(R.string.unexpected_status_code) + ": " + response.code());
                     showAlert(MainActivity.this.getString(R.string.error), MainActivity.this.getString(R.string.unexpected_status_code) + ": " + response.code());

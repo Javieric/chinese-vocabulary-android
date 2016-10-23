@@ -1,5 +1,6 @@
 package com.javi.chinesevocabulary.pojos;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -9,6 +10,7 @@ import java.util.List;
 public class Vocabulary {
 
     private List<Resource> resources;
+//    private Date lastUpdate;
     private int version;
 
     public Vocabulary() {
