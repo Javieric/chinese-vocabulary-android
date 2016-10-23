@@ -11,7 +11,7 @@ public class Constants {
 
     public enum ResourceTableIndexes {
 
-        ENGLISH(0), PINYIN(1), CHINESE(2);
+        ENGLISH(0), PINYIN(1), CHINESE(2), STAGE(3), UNIT(4);
         private int resourceTableIndex;
         ResourceTableIndexes(int resourceTableIndex) {
             this.resourceTableIndex = resourceTableIndex;

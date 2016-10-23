@@ -7,13 +7,12 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.javi.chinesevocabulary.DBManager;
-import com.javi.chinesevocabulary.DBManager.VocabularyTable;
 import com.javi.chinesevocabulary.DBManager.DataTable;
+import com.javi.chinesevocabulary.DBManager.VocabularyTable;
 import com.javi.chinesevocabulary.pojos.Resource;
 import com.javi.chinesevocabulary.pojos.Vocabulary;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -70,6 +69,8 @@ public class DBHelper {
                 resourceContentValue.put(VocabularyTable.ENGLISH, resource.getEnglish());
                 resourceContentValue.put(VocabularyTable.PINYIN, resource.getPinyin());
                 resourceContentValue.put(VocabularyTable.CHINESE, resource.getChinese());
+                resourceContentValue.put(VocabularyTable.STAGE, resource.getStage());
+                resourceContentValue.put(VocabularyTable.UNIT, resource.getUnit());
 
                 db.insert(VocabularyTable.TABLE, null, resourceContentValue);
             }
@@ -86,14 +87,18 @@ public class DBHelper {
         String[] fieldsResource = new String[] {
                 VocabularyTable.ENGLISH,
                 VocabularyTable.PINYIN,
-                VocabularyTable.CHINESE};
+                VocabularyTable.CHINESE,
+                VocabularyTable.STAGE,
+                VocabularyTable.UNIT};
         Cursor cursorResource = db.query(VocabularyTable.TABLE, fieldsResource, null, null, null, null, null);
         if (cursorResource.moveToFirst()) {
             do {
                 Resource resource = new Resource(
                         cursorResource.getString(Constants.ResourceTableIndexes.ENGLISH.getCode()),
                         cursorResource.getString(Constants.ResourceTableIndexes.PINYIN.getCode()),
-                        cursorResource.getString(Constants.ResourceTableIndexes.CHINESE.getCode()));
+                        cursorResource.getString(Constants.ResourceTableIndexes.CHINESE.getCode()),
+                        cursorResource.getInt(Constants.ResourceTableIndexes.STAGE.getCode()),
+                        cursorResource.getInt(Constants.ResourceTableIndexes.UNIT.getCode()));
                 resources.add(resource);
             } while (cursorResource.moveToNext());
         }

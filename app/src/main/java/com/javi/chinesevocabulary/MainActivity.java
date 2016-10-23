@@ -3,19 +3,18 @@ package com.javi.chinesevocabulary;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
+import com.javi.chinesevocabulary.DBManager.DataTable;
+import com.javi.chinesevocabulary.DBManager.VocabularyTable;
 import com.javi.chinesevocabulary.helpers.DBHelper;
 import com.javi.chinesevocabulary.helpers.DropboxUrl;
 import com.javi.chinesevocabulary.helpers.HttpHelper;
 import com.javi.chinesevocabulary.pojos.Vocabulary;
-import com.javi.chinesevocabulary.DBManager.DataTable;
-import com.javi.chinesevocabulary.DBManager.VocabularyTable;
 
 import java.net.SocketTimeoutException;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;

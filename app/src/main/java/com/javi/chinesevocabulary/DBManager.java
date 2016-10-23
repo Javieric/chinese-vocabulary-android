@@ -26,6 +26,8 @@ public class DBManager extends SQLiteOpenHelper {
         public static final String ENGLISH = "ENGLISH";
         public static final String PINYIN = "PINYIN";
         public static final String CHINESE = "CHINESE";
+        public static final String STAGE = "STAGE";
+        public static final String UNIT = "UNIT";
     }
 
     private static final StringBuffer SQL_CREATE_DATA_TABLE = new StringBuffer(
@@ -37,7 +39,9 @@ public class DBManager extends SQLiteOpenHelper {
             "CREATE TABLE IF NOT EXISTS ").append(DataTable.TABLE).append("(")
             .append(VocabularyTable.ENGLISH).append(" ").append(Constants.TEXT).append(", ")
             .append(VocabularyTable.PINYIN).append(" ").append(Constants.TEXT).append(", ")
-            .append(VocabularyTable.CHINESE).append(" ").append(Constants.TEXT).append(")");
+            .append(VocabularyTable.CHINESE).append(" ").append(Constants.TEXT).append(",")
+            .append(VocabularyTable.STAGE).append(" ").append(Constants.INTEGER).append(",")
+            .append(VocabularyTable.UNIT).append(" ").append(Constants.INTEGER).append(")");
 
     public DBManager(Context context, String name, SQLiteDatabase.CursorFactory factory,
                      int version) {
