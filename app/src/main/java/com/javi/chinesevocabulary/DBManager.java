@@ -30,6 +30,13 @@ public class DBManager extends SQLiteOpenHelper {
         public static final String UNIT = "UNIT";
     }
 
+    public final class SettingsTable {
+        public static final String TABLE = "SETTINGS";
+        public static final String MODE = "MODE";
+        public static final String STAGES = "STAGES";
+        public static final String UNITS = "UNITS";
+    }
+
     private static final StringBuffer SQL_CREATE_DATA_TABLE = new StringBuffer(
             "CREATE TABLE IF NOT EXISTS ").append(DataTable.TABLE).append("(")
 //            .append(DataTable.LAST_UPDATE).append(" ").append(Constants.INTEGER).append(", ")
@@ -42,6 +49,12 @@ public class DBManager extends SQLiteOpenHelper {
             .append(VocabularyTable.CHINESE).append(" ").append(Constants.TEXT).append(",")
             .append(VocabularyTable.STAGE).append(" ").append(Constants.INTEGER).append(",")
             .append(VocabularyTable.UNIT).append(" ").append(Constants.INTEGER).append(")");
+
+    private static final StringBuffer SQL_CREATE_SETTINGS_TABLE = new StringBuffer(
+            "CREATE TABLE IF NOT EXISTS ").append(SettingsTable.TABLE).append("(")
+            .append(SettingsTable.MODE).append(" ").append(Constants.INTEGER).append(", ")
+            .append(SettingsTable.STAGES).append(" ").append(Constants.TEXT).append(", ")
+            .append(SettingsTable.UNITS).append(" ").append(Constants.TEXT).append(")");
 
     public DBManager(Context context, String name, SQLiteDatabase.CursorFactory factory,
                      int version) {
@@ -56,12 +69,14 @@ public class DBManager extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(SQL_CREATE_DATA_TABLE.toString());
         db.execSQL(SQL_CREATE_VOCABULARY_TABLE.toString());
+        db.execSQL(SQL_CREATE_SETTINGS_TABLE.toString());
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + DataTable.TABLE);
         db.execSQL("DROP TABLE IF EXISTS " + VocabularyTable.TABLE);
+        db.execSQL("DROP TABLE IF EXISTS " + SettingsTable.TABLE);
     }
 }
 

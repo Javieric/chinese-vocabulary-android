@@ -9,7 +9,9 @@ import android.util.Log;
 import com.javi.chinesevocabulary.DBManager;
 import com.javi.chinesevocabulary.DBManager.DataTable;
 import com.javi.chinesevocabulary.DBManager.VocabularyTable;
+import com.javi.chinesevocabulary.DBManager.SettingsTable;
 import com.javi.chinesevocabulary.pojos.Resource;
+import com.javi.chinesevocabulary.pojos.Settings;
 import com.javi.chinesevocabulary.pojos.Vocabulary;
 
 import java.util.ArrayList;
@@ -106,6 +108,37 @@ public class DBHelper {
         return resources;
     }
 
+    public void saveSettings(Settings settings){
+        Log.d(this.getClass().getName(), "saveSettings()");
+
+        ContentValues settingsContentValue = new ContentValues();
+        settingsContentValue.put(SettingsTable.MODE, settings.getMode());
+        settingsContentValue.put(SettingsTable.STAGES, settings.getStages());
+        settingsContentValue.put(SettingsTable.UNITS, settings.getUnits());
+
+        clearSettings();
+        db.insert(SettingsTable.TABLE, null, settingsContentValue);
+    }
+
+    public Settings getSettings(){
+        Log.d(this.getClass().getName(), "getSettings()");
+        String[] fieldsSettings = new String[] {
+                SettingsTable.MODE,
+                SettingsTable.STAGES,
+                SettingsTable.UNITS};
+        Cursor cursorSettings = db.query(DataTable.TABLE, fieldsSettings, null, null, null, null, null);
+        Settings settings = null;
+        if (cursorSettings.moveToFirst()) {
+
+//            Date lastUpdate = new Date(cursorData.getInt(Constants.DataTableIndexes.LAST_UPDATE.getCode()));
+            settings = new Settings(cursorSettings.getInt(Constants.SettingsTableIndexes.MODE.getCode()),
+                    cursorSettings.getString(Constants.SettingsTableIndexes.STAGES.getCode()),
+                    cursorSettings.getString(Constants.SettingsTableIndexes.UNITS.getCode()));
+        }
+        cursorSettings.close();
+        return settings;
+    }
+
     public void clearVocabulary(){
         Log.d(this.getClass().getName(), "clearVocabulary()");
         db.delete(VocabularyTable.TABLE, null, null);
@@ -114,6 +147,11 @@ public class DBHelper {
     public void clearData(){
         Log.d(this.getClass().getName(), "clearData()");
         db.delete(DataTable.TABLE, null, null);
+    }
+
+    public void clearSettings(){
+        Log.d(this.getClass().getName(), "clearSettings()");
+        db.delete(SettingsTable.TABLE, null, null);
     }
 
     public void close(){

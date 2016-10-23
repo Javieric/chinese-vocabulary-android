@@ -32,4 +32,16 @@ public class Constants {
             return this.dataTableIndex;
         }
     }
+
+    public enum SettingsTableIndexes {
+
+        MODE(0), STAGES(1), UNITS(2);
+        private int settingsTableIndex;
+        SettingsTableIndexes(int settingsTableIndex) {
+            this.settingsTableIndex = settingsTableIndex;
+        }
+        public int getCode() {
+            return this.settingsTableIndex;
+        }
+    }
 }
