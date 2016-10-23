@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">"ChineseVocabulary "</string>
+    <string name="please_wait">Please wait...</string>
+    <string name="ok">OK</string>
+    <string name="error">Error</string>
+    <string name="unexpected_status_code">Unexpected status code</string>
+    <string name="timeout_error">Timeout error</string>
 </resources>
