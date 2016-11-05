@@ -5,4 +5,19 @@
     <string name="error">Error</string>
     <string name="unexpected_status_code">Unexpected status code</string>
     <string name="timeout_error">Timeout error</string>
+
+    <!--Settings-->
+    <string name="mode">Mode</string>
+    <string name="stages">Stages</string>
+    <string name="units">Units</string>
+    <string name="stage2">Stage 2</string>
+    <string name="stage1">Stage 1</string>
+    <string name="characters">Characters</string>
+    <string name="pinyin">Pinyin</string>
+    <string name="save">Save</string>
+
+    <string-array name="mode_spinner">
+        <item>@string/pinyin</item>
+        <item>@string/characters</item>
+    </string-array>
 </resources>

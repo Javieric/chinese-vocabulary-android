@@ -6,6 +6,8 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 
 import com.javi.chinesevocabulary.DBManager.DataTable;
 import com.javi.chinesevocabulary.DBManager.VocabularyTable;
@@ -89,5 +91,14 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
         alertbox.show();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.more_tab_menu, menu);
+
+        // return true so that the menu pop up is opened
+        return true;
     }
 }
