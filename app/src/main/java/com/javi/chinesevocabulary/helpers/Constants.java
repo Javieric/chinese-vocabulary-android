@@ -9,6 +9,9 @@ public class Constants {
     public static final String TEXT = "TEXT";
     public static final String INTEGER = "INTEGER";
 
+    public static final int MODE_CHINESE = 0;
+    public static final int MODE_PINYIN = 1;
+
     public enum ResourceTableIndexes {
 
         ENGLISH(0), PINYIN(1), CHINESE(2), STAGE(3), UNIT(4);

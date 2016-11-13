@@ -1,5 +1,7 @@
 package com.javi.chinesevocabulary.pojos;
 
+import com.javi.chinesevocabulary.helpers.Constants;
+
 /**
  * Created by javi on 23/10/2016.
  */
@@ -10,6 +12,9 @@ public class Settings {
     private String units;
 
     public Settings() {
+        this.mode = Constants.MODE_CHINESE;
+        this.stages = "";
+        this.units = "";
     }
 
     public Settings(int mode, String stages, String units) {

@@ -1,7 +1,10 @@
 package com.javi.chinesevocabulary;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -9,6 +12,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.Spinner;
 
+import com.javi.chinesevocabulary.helpers.Constants;
 import com.javi.chinesevocabulary.helpers.DBHelper;
 import com.javi.chinesevocabulary.DBManager.SettingsTable;
 import com.javi.chinesevocabulary.pojos.Settings;
@@ -40,6 +44,8 @@ public class SettingsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         checkBoxStage1 = (CheckBox)findViewById(R.id.checkBoxStage1);
         checkBoxStage2 = (CheckBox)findViewById(R.id.checkBoxStage2);
@@ -301,5 +307,23 @@ public class SettingsActivity extends AppCompatActivity {
                 dbSettings.saveSettings(settings);
             }
         });
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Log.i(this.getClass().getName(), "onOptionsItemSelected()");
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                // Home pressed
+
+                Log.i(this.getClass().getName(),"onOptionsItemSelected() - Home pressed");
+                Intent i = new Intent(this, MainActivity.class);
+                startActivity(i);
+
+                finish();
+            default:
+                super.onOptionsItemSelected(item);
+                break;
+        }
+        return true;
     }
 }

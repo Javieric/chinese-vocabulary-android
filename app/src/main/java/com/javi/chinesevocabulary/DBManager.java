@@ -43,7 +43,7 @@ public class DBManager extends SQLiteOpenHelper {
             .append(DataTable.VERSION_CODE).append(" ").append(Constants.INTEGER).append(")");
 
     private static final StringBuffer SQL_CREATE_VOCABULARY_TABLE = new StringBuffer(
-            "CREATE TABLE IF NOT EXISTS ").append(DataTable.TABLE).append("(")
+            "CREATE TABLE IF NOT EXISTS ").append(VocabularyTable.TABLE).append("(")
             .append(VocabularyTable.ENGLISH).append(" ").append(Constants.TEXT).append(", ")
             .append(VocabularyTable.PINYIN).append(" ").append(Constants.TEXT).append(", ")
             .append(VocabularyTable.CHINESE).append(" ").append(Constants.TEXT).append(",")

@@ -15,6 +15,7 @@ import com.javi.chinesevocabulary.pojos.Settings;
 import com.javi.chinesevocabulary.pojos.Vocabulary;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -108,6 +109,76 @@ public class DBHelper {
         return resources;
     }
 
+    public List<Resource> filterResources(Settings settings){
+        String stages[] = settings.getStages().split("-");
+        String units[] = settings.getUnits().split("-");
+        List<Resource> resourceList = new ArrayList<>();
+        String where = "";
+        if(Arrays.asList(stages).contains("1")){
+
+            if(Arrays.asList(units).contains("1.1")){
+                where = where + VocabularyTable.UNIT + " = " + 1;
+            }
+            if(Arrays.asList(units).contains("1.2")){
+                where = addOR(where) + VocabularyTable.UNIT + " = " + 2;
+            }
+            if(Arrays.asList(units).contains("1.3")){
+                where = addOR(where) + VocabularyTable.UNIT + " = " + 3;
+            }
+            if(Arrays.asList(units).contains("1.4")){
+                where = addOR(where) + VocabularyTable.UNIT + " = " + 4;
+            }
+            if(Arrays.asList(units).contains("1.5")){
+                where = addOR(where) + VocabularyTable.UNIT + " = " + 5;
+            }
+            if(Arrays.asList(units).contains("1.6")){
+                where = addOR(where) + VocabularyTable.UNIT + " = " + 6;
+            }
+        }
+        if(Arrays.asList(stages).contains("2")){
+            if(Arrays.asList(units).contains("2.7")){
+                where = addOR(where) + VocabularyTable.UNIT + " = " + 7;
+            }
+            if(Arrays.asList(units).contains("2.8")){
+                where = addOR(where) + VocabularyTable.UNIT + " = " + 8;
+            }
+            if(Arrays.asList(units).contains("2.9")){
+                where = addOR(where) + VocabularyTable.UNIT + " = " + 9;
+            }
+            if(Arrays.asList(units).contains("2.10")){
+                where = addOR(where) + VocabularyTable.UNIT + " = " + 10;
+            }
+            if(Arrays.asList(units).contains("2.11")){
+                where = addOR(where) + VocabularyTable.UNIT + " = " + 11;
+            }
+            if(Arrays.asList(units).contains("2.12")){
+                where = addOR(where) + VocabularyTable.UNIT + " = " + 12;
+            }
+        }
+
+        Cursor cursor = db.query(VocabularyTable.TABLE, null, where, null, null, null, null);
+        if(cursor.moveToFirst()){
+            do {
+                Resource resource = new Resource(
+                        cursor.getString(Constants.ResourceTableIndexes.ENGLISH.getCode()),
+                        cursor.getString(Constants.ResourceTableIndexes.PINYIN.getCode()),
+                        cursor.getString(Constants.ResourceTableIndexes.CHINESE.getCode()),
+                        cursor.getInt(Constants.ResourceTableIndexes.STAGE.getCode()),
+                        cursor.getInt(Constants.ResourceTableIndexes.UNIT.getCode()));
+                resourceList.add(resource);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return resourceList;
+    }
+
+    private String addOR(String where){
+        if(!where.equals("")){
+            where = where + " OR ";
+        }
+        return where;
+    }
+
     public void saveSettings(Settings settings){
         Log.d(this.getClass().getName(), "saveSettings()");
 
@@ -118,6 +189,7 @@ public class DBHelper {
 
         clearSettings();
         db.insert(SettingsTable.TABLE, null, settingsContentValue);
+        Log.d(this.getClass().getName(), "settingsSaved()");
     }
 
     public Settings getSettings(){
@@ -126,8 +198,8 @@ public class DBHelper {
                 SettingsTable.MODE,
                 SettingsTable.STAGES,
                 SettingsTable.UNITS};
-        Cursor cursorSettings = db.query(DataTable.TABLE, fieldsSettings, null, null, null, null, null);
-        Settings settings = null;
+        Cursor cursorSettings = db.query(SettingsTable.TABLE, fieldsSettings, null, null, null, null, null);
+        Settings settings = new Settings();
         if (cursorSettings.moveToFirst()) {
 
 //            Date lastUpdate = new Date(cursorData.getInt(Constants.DataTableIndexes.LAST_UPDATE.getCode()));
